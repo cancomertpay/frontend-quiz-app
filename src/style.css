@@ -4,3 +4,31 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.heading-xl {
+  @apply font-medium text-[144px] leading-[100%];
+}
+
+.heading-l-bold {
+  @apply font-medium text-[64px] leading-[100%];
+}
+
+.heading-l-regular {
+  @apply font-light text-[64px] leading-[100%];
+}
+
+.heading-m {
+  @apply font-medium text-[36px] leading-[100%];
+}
+
+.heading-s {
+  @apply font-medium text-[28px] leading-[100%];
+}
+
+.body-m {
+  @apply font-normal text-[24px] leading-[150%];
+}
+
+.body-s {
+  @apply italic text-[12px] leading-[150%];
+}
