@@ -1,10 +1,8 @@
 <script setup>
-import { ref, provide, watch, computed } from 'vue';
 import { useThemeStore } from './store/store.js';
 import { storeToRefs } from 'pinia';
 
 import TheHeader from './components/layout/TheHeader.vue';
-import TheQuizList from './components/quiz/TheQuizList.vue';
 import TheMain from './components/layout/TheMain.vue';
 
 const store = useThemeStore();

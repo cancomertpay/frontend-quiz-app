@@ -1,5 +1,5 @@
 <script setup>
-import { useQuizStore } from './../../store/store.js';
+import { useQuizStore } from '../../store/store.js';
 import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
 

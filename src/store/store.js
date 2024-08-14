@@ -74,7 +74,7 @@ export const useQuizStore = defineStore('quiz', () => {
   watch(questionStatus, (newValue, oldValue) => {
     if (
       newValue === 'SELECTION_IDLE' ||
-      (oldValue === 'SELECTION_IDLE' && !timerInterval.value)
+      oldValue === 'SELECTION_IDLE' && !timerInterval.value
     ) {
       startTimer();
     } else if (

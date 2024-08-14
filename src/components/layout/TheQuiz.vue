@@ -5,21 +5,16 @@ import { storeToRefs } from 'pinia';
 
 // components
 import BaseContentLayout from '../UI/BaseContentLayout.vue';
-import BaseMultipleSelection from './../UI/BaseMultipleSelection.vue';
+import TheMultipleSelection from './../quiz/TheMultipleSelection.vue';
 import BaseButton from './../UI/BaseButton.vue';
-import BaseTimeBar from './../UI/BaseTimeBar.vue';
+import TheTimeBar from './../quiz/TheTimeBar.vue';
 
 // store
 const store = useQuizStore();
 
 // states
-const {
-  currentQuiz,
-  usersAnswer,
-  currentQuestion,
-  currentQuestionIndex,
-  questionStatus,
-} = storeToRefs(store);
+const { currentQuiz, currentQuestion, currentQuestionIndex, questionStatus } =
+  storeToRefs(store);
 
 // methods
 const { submitAnswer, nextQuestion } = store;
@@ -41,11 +36,11 @@ const { submitAnswer, nextQuestion } = store;
             {{ currentQuestion.question }}
           </div>
         </div>
-        <BaseTimeBar />
+        <TheTimeBar />
       </div>
     </template>
     <template #default>
-      <BaseMultipleSelection />
+      <TheMultipleSelection />
       <BaseButton
         v-if="
           questionStatus === 'PICKED_CORRECTLY' ||
