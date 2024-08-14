@@ -30,5 +30,5 @@
 }
 
 .body-s {
-  @apply italic text-[12px] leading-[150%];
+  @apply italic text-[20px] leading-[150%];
 }

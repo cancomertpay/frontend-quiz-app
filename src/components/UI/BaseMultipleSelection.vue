@@ -7,7 +7,8 @@ import { storeToRefs } from 'pinia';
 const store = useQuizStore();
 
 // states
-const { questionStatus, currentQuestion, selectedOption } = storeToRefs(store);
+const { questionStatus, currentQuestion, selectedOption, timer, isSubmitted } =
+  storeToRefs(store);
 
 const { selectOption } = store;
 
@@ -52,7 +53,7 @@ const handleLeave = (e) => {
         @mouseleave="handleLeave"
         @click="selectOption(option)"
       >
-        <div class="flex items-center gap-8">
+        <div class="flex items-center gap-8 flex-1">
           <span
             class="option-letter heading-s"
             :class="{
@@ -75,22 +76,28 @@ const handleLeave = (e) => {
             {{ option }}
           </span>
         </div>
-        <img
-          v-if="
-            currentQuestion.answer === option &&
-            (questionStatus === 'PICKED_CORRECTLY' ||
-              questionStatus === 'PICKED_INCORRECTLY')
-          "
-          src="/assets/images/icon-correct.svg"
-          alt="correct"
-        />
-        <img
-          v-else-if="
-            questionStatus === 'PICKED_INCORRECTLY' && selectedOption === option
-          "
-          src="/assets/images/icon-incorrect.svg"
-          alt="incorrect"
-        />
+        <div class="block !w-[40px] !h-[40px]">
+          <img
+            v-if="
+              currentQuestion.answer === option &&
+              (questionStatus === 'PICKED_CORRECTLY' ||
+                questionStatus === 'PICKED_INCORRECTLY' ||
+                questionStatus === 'TIME_EXPIRED')
+            "
+            src="/assets/images/icon-correct.svg"
+            alt="correct"
+            class="w-full h-full"
+          />
+          <img
+            v-else-if="
+              questionStatus === 'PICKED_INCORRECTLY' &&
+              selectedOption === option
+            "
+            src="/assets/images/icon-incorrect.svg"
+            alt="incorrect"
+            class="w-full h-full"
+          />
+        </div>
       </div>
     </li>
   </ul>

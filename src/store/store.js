@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { computed, ref, watch } from 'vue';
+import { computed, onUnmounted, ref, watch } from 'vue';
 import quizData from './../../data.json';
 
 export const useThemeStore = defineStore('theme', () => {
@@ -44,10 +44,13 @@ export const useQuizStore = defineStore('quiz', () => {
   const usersAnswer = ref(null);
   const currentQuestionIndex = ref(0);
   const quizScore = ref(0);
+  const isSubmitted = ref(false);
+  const timer = ref(0);
+  const timerInterval = ref(null);
 
   // computed
   const currentQuestion = computed(
-    () => currentQuiz.value.questions[currentQuestionIndex.value]
+    () => currentQuiz.value?.questions[currentQuestionIndex.value]
   );
 
   const questionStatus = computed(() => {
@@ -62,15 +65,66 @@ export const useQuizStore = defineStore('quiz', () => {
       currentQuestion.value.answer !== usersAnswer.value
     )
       return 'PICKED_INCORRECTLY';
+    else if (isSubmitted.value && !usersAnswer.value && timer.value === 0)
+      return 'TIME_EXPIRED';
+    else if (isSubmitted.value && timer.value > 0) return 'NOTHING_SELECTED';
     return 'SELECTION_IDLE';
   });
 
-  // watch
-  watch(questionStatus, (value) => {
-    if (value === 'PICKED_CORRECTLY') quizScore.value++;
+  watch(questionStatus, (newValue, oldValue) => {
+    if (
+      newValue === 'SELECTION_IDLE' ||
+      (oldValue === 'SELECTION_IDLE' && !timerInterval.value)
+    ) {
+      startTimer();
+    } else if (
+      newValue !== 'NOTHING_SELECTED' &&
+      newValue !== 'SELECTION_ACTIVE'
+    ) {
+      pauseTimer();
+    }
+
+    if (newValue === 'PICKED_CORRECTLY') {
+      quizScore.value++;
+    }
+  });
+
+  watch(timer, (newValue) => {
+    if (newValue === 0 && !usersAnswer.value) {
+      submitAnswer();
+    }
+  });
+
+  onUnmounted(() => {
+    if (timerInterval.value) {
+      clearInterval(timerInterval.value);
+    }
   });
 
   // Methods
+  const startTimer = () => {
+    timer.value = 10;
+
+    if (timerInterval.value) {
+      clearInterval(timerInterval.value);
+    }
+
+    timerInterval.value = setInterval(() => {
+      timer.value -= 0.1;
+      if (timer.value <= 0) {
+        clearInterval(timerInterval.value);
+        timer.value = 0;
+      }
+    }, 100);
+  };
+
+  const pauseTimer = () => {
+    if (timerInterval.value) {
+      clearInterval(timerInterval.value);
+      timerInterval.value = null;
+    }
+  };
+
   const selectQuiz = (quizName) => {
     currentQuiz.value = quizData.quizzes.find(
       (quiz) => quiz.title.toLocaleLowerCase() === quizName.toLocaleLowerCase()
@@ -79,9 +133,11 @@ export const useQuizStore = defineStore('quiz', () => {
     currentQuestionIndex.value = 0;
     selectedOption.value = null;
     usersAnswer.value = null;
+    startTimer();
   };
 
   const nextQuestion = () => {
+    isSubmitted.value = false;
     if (currentQuiz.value) currentQuestionIndex.value++;
 
     selectedOption.value = null;
@@ -89,10 +145,13 @@ export const useQuizStore = defineStore('quiz', () => {
   };
 
   const submitAnswer = () => {
+    isSubmitted.value = true;
     usersAnswer.value = selectedOption.value;
   };
 
-  const selectOption = (option) => (selectedOption.value = option);
+  const selectOption = (option) => {
+    selectedOption.value = option;
+  };
 
   const playAgain = () => {
     currentQuiz.value = null;
@@ -100,6 +159,7 @@ export const useQuizStore = defineStore('quiz', () => {
     usersAnswer.value = null;
     currentQuestionIndex.value = 0;
     quizScore.value = 0;
+    isSubmitted.value = false;
   };
 
   return {
@@ -111,6 +171,7 @@ export const useQuizStore = defineStore('quiz', () => {
     currentQuestionIndex,
     selectedOption,
     quizScore,
+    timer,
     selectQuiz,
     selectOption,
     submitAnswer,

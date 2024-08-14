@@ -14,7 +14,7 @@ const { currentQuiz, currentQuestionIndex } = storeToRefs(store);
     :is="
       !currentQuiz
         ? TheLanding
-        : currentQuestionIndex + 1 === currentQuiz.questions.length
+        : currentQuestionIndex === currentQuiz.questions.length
         ? TheScore
         : TheQuiz
     "
