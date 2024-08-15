@@ -13,7 +13,7 @@ const { quizList, selectQuiz } = store;
       <span class="heading-l-regular text-start">Welcome to the</span>
       <br />
       <h1 class="heading-l-bold text-start">Frontend Quiz!</h1>
-      <p class="body-s mt-5">Pick a subject to get started.</p>
+      <p class="body-s mt-5 lg:mt-12">Pick a subject to get started.</p>
     </template>
     <template #default>
       <ul>
@@ -36,6 +36,6 @@ const { quizList, selectQuiz } = store;
 
 <style scoped>
 .option-cart {
-  @apply flex items-center gap-5 bg-white dark:bg-navy hover:opacity-60 mb-5 p-4 rounded-3xl shadow-lg cursor-pointer transition-opacity duration-300;
+  @apply flex items-center gap-5 bg-white dark:bg-navy hover:opacity-60 mb-5 p-4 lg:px-6 lg:py-7 rounded-3xl shadow-lg cursor-pointer transition-opacity duration-300;
 }
 </style>
