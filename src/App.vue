@@ -16,7 +16,7 @@ const { themeClass } = storeToRefs(store);
     class="min-h-screen"
   >
     <div
-      class="bg-light-grey dark:bg-dark-navy text-dark-navy dark:text-white min-h-screen py-20 px-40 select-none transition-colors"
+      class="block bg-light-grey dark:bg-dark-navy text-dark-navy dark:text-white min-h-screen p-5 md:px-16 lg:py-20 lg:px-40 select-none transition-colors overflow-hidden"
     >
       <TheHeader />
       <TheMain />

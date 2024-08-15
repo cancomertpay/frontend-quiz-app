@@ -74,7 +74,7 @@ export const useQuizStore = defineStore('quiz', () => {
   watch(questionStatus, (newValue, oldValue) => {
     if (
       newValue === 'SELECTION_IDLE' ||
-      oldValue === 'SELECTION_IDLE' && !timerInterval.value
+      (oldValue === 'SELECTION_IDLE' && !timerInterval.value)
     ) {
       startTimer();
     } else if (
@@ -92,6 +92,15 @@ export const useQuizStore = defineStore('quiz', () => {
   watch(timer, (newValue) => {
     if (newValue === 0 && !usersAnswer.value) {
       submitAnswer();
+    }
+  });
+
+  watch(currentQuestion, (newVal) => {
+    if (newVal) {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      });
     }
   });
 
