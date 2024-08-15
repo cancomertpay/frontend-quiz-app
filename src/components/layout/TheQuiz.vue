@@ -23,7 +23,7 @@ const { submitAnswer, nextQuestion } = store;
 <template>
   <BaseContentLayout>
     <template #title>
-      <div class="flex flex-col justify-between h-full gap-10 lg:gap-0 pb-10 lg:pb-28">
+      <div class="flex flex-col justify-between h-full gap-10 lg:gap-0 pb-10 lg:pb-48">
         <div>
           <div class="body-s mb-10">
             Question {{ currentQuestionIndex + 1 }} of
