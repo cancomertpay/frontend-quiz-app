@@ -49,6 +49,7 @@
               r="416.5"
             />
             <circle
+              class="xl:hidden"
               cx="1388.5"
               cy="840.5"
               r="416.5"
